@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Rescupe
+//  Wavclouds
 //
 //  Created by Enoch Tamulonis on 8/21/23.
 //
