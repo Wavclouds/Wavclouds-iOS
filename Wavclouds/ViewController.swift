@@ -1,8 +1,9 @@
 import UIKit
+import Turbo
+import WebKit
 
 class ViewController: UINavigationController, UITabBarDelegate {
     let tabBar = UITabBar()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -16,7 +17,7 @@ class ViewController: UINavigationController, UITabBarDelegate {
         tabBar.items = [itemHome, itemUpload, itemChat, itemProfile]
         
         // Position and add the custom tab bar to the view
-        tabBar.frame = CGRect(x: 0, y: self.view.frame.height - 75, width: self.view.frame.width, height: 49)
+        tabBar.frame = CGRect(x: 0, y: self.view.frame.height - 81, width: self.view.frame.width, height: 240)
         self.view.addSubview(tabBar)
         
         // Set the initial selected tab
@@ -28,5 +29,4 @@ class ViewController: UINavigationController, UITabBarDelegate {
         // You can customize additional properties of the tab bar item here, such as imageInsets, badgeValue, etc.
         return tabBarItem
     }
-    
 }

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C518194D2AA593990075CE8A /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C518194C2AA593990075CE8A /* WebViewController.swift */; };
+		C51F026B2AB515C400A16A66 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51F026A2AB515C400A16A66 /* LoginViewController.swift */; };
+		C51F026E2AB6233700A16A66 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = C51F026D2AB6233700A16A66 /* SwiftKeychainWrapper */; };
+		C51F02702AB7CFDB00A16A66 /* ScriptMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51F026F2AB7CFDB00A16A66 /* ScriptMessageHandler.swift */; };
 		C5F069372A9442A000311E26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F069362A9442A000311E26 /* AppDelegate.swift */; };
 		C5F069392A9442A000311E26 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F069382A9442A000311E26 /* SceneDelegate.swift */; };
 		C5F0693B2A9442A000311E26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F0693A2A9442A000311E26 /* ViewController.swift */; };
@@ -35,6 +38,9 @@
 
 /* Begin PBXFileReference section */
 		C518194C2AA593990075CE8A /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		C51F02672AB4F41000A16A66 /* Wavclouds.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Wavclouds.entitlements; sourceTree = "<group>"; };
+		C51F026A2AB515C400A16A66 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		C51F026F2AB7CFDB00A16A66 /* ScriptMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptMessageHandler.swift; sourceTree = "<group>"; };
 		C5F069332A9442A000311E26 /* Wavclouds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wavclouds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F069362A9442A000311E26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C5F069382A9442A000311E26 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C51F026E2AB6233700A16A66 /* SwiftKeychainWrapper in Frameworks */,
 				C5F069682A94456500311E26 /* Turbo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +100,7 @@
 		C5F069352A9442A000311E26 /* Wavclouds */ = {
 			isa = PBXGroup;
 			children = (
+				C51F02672AB4F41000A16A66 /* Wavclouds.entitlements */,
 				C5F069362A9442A000311E26 /* AppDelegate.swift */,
 				C5F069382A9442A000311E26 /* SceneDelegate.swift */,
 				C5F0693A2A9442A000311E26 /* ViewController.swift */,
@@ -100,6 +108,8 @@
 				C5F069412A9442A100311E26 /* LaunchScreen.storyboard */,
 				C5F069442A9442A100311E26 /* Info.plist */,
 				C518194C2AA593990075CE8A /* WebViewController.swift */,
+				C51F026A2AB515C400A16A66 /* LoginViewController.swift */,
+				C51F026F2AB7CFDB00A16A66 /* ScriptMessageHandler.swift */,
 			);
 			path = Wavclouds;
 			sourceTree = "<group>";
@@ -122,6 +132,7 @@
 			name = Wavclouds;
 			packageProductDependencies = (
 				C5F069672A94456500311E26 /* Turbo */,
+				C51F026D2AB6233700A16A66 /* SwiftKeychainWrapper */,
 			);
 			productName = Rescupe;
 			productReference = C5F069332A9442A000311E26 /* Wavclouds.app */;
@@ -197,6 +208,7 @@
 			mainGroup = C5F0692A2A9442A000311E26;
 			packageReferences = (
 				C5F069662A94456500311E26 /* XCRemoteSwiftPackageReference "turbo-ios" */,
+				C51F026C2AB6233700A16A66 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = C5F069342A9442A000311E26 /* Products */;
 			projectDirPath = "";
@@ -243,6 +255,8 @@
 				C5F0693B2A9442A000311E26 /* ViewController.swift in Sources */,
 				C5F069372A9442A000311E26 /* AppDelegate.swift in Sources */,
 				C5F069392A9442A000311E26 /* SceneDelegate.swift in Sources */,
+				C51F02702AB7CFDB00A16A66 /* ScriptMessageHandler.swift in Sources */,
+				C51F026B2AB515C400A16A66 /* LoginViewController.swift in Sources */,
 				C518194D2AA593990075CE8A /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -407,9 +421,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Wavclouds/Wavclouds.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 874UT85FW7;
+				DEVELOPMENT_TEAM = RKWH6339GJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Wavclouds/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -421,7 +436,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = indigo.Wavclouds;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wavclouds.beats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -434,9 +449,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Wavclouds/Wavclouds.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 874UT85FW7;
+				DEVELOPMENT_TEAM = RKWH6339GJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Wavclouds/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -448,7 +464,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = indigo.Wavclouds;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wavclouds.beats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -574,6 +590,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C51F026C2AB6233700A16A66 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		C5F069662A94456500311E26 /* XCRemoteSwiftPackageReference "turbo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hotwired/turbo-ios";
@@ -585,6 +609,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C51F026D2AB6233700A16A66 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C51F026C2AB6233700A16A66 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
 		C5F069672A94456500311E26 /* Turbo */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C5F069662A94456500311E26 /* XCRemoteSwiftPackageReference "turbo-ios" */;
