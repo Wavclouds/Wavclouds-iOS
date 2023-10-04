@@ -7,6 +7,7 @@ class LoginViewController: UIViewController {
     private let usernameTextField = UITextField()
     private let passwordTextField = UITextField()
     private let loginButton = UIButton(type: .system)
+    let baseUrl = Constants.baseUrl
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,12 +32,49 @@ class LoginViewController: UIViewController {
         )
         passwordTextField.textColor = .white
         passwordTextField.isSecureTextEntry = true
+        usernameTextField.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        passwordTextField.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        
+        // Add a border to the text fields
+        usernameTextField.layer.borderWidth = 1.0
+        usernameTextField.layer.borderColor = UIColor.lightGray.cgColor
+        usernameTextField.layer.cornerRadius = 8.0  // Optional: Add rounded corners for a nicer look
 
+        passwordTextField.layer.borderWidth = 1.0
+        passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+        passwordTextField.layer.cornerRadius = 8.0  // Optional: Add rounded corners for a nicer look
+        
+        // Add padding to the inner text
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: usernameTextField.frame.height))
+        usernameTextField.leftView = paddingView
+        usernameTextField.leftViewMode = .always
+
+        let passwordPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: passwordTextField.frame.height))
+        passwordTextField.leftView = passwordPaddingView
+        passwordTextField.leftViewMode = .always
+        
         loginButton.setTitle("Login", for: .normal)
-        loginButton.setTitleColor(.white, for: .normal)
-        loginButton.backgroundColor = .darkGray
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
+        // Customize the login button
+        loginButton.layer.cornerRadius = 8.0
+        loginButton.layer.masksToBounds = true
+        loginButton.setTitleColor(.white, for: .normal)
+        loginButton.backgroundColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0) // Customize button color
+
+        // Add shadow to the login button (optional)
+        loginButton.layer.shadowColor = UIColor.gray.cgColor
+        loginButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        loginButton.layer.shadowOpacity = 0.5
+        loginButton.layer.shadowRadius = 2.0
+
+        
+        // Create a "Create an Account" button
+        let createAccountButton = UIButton(type: .system)
+        createAccountButton.setTitle("Create an Account", for: .normal)
+        createAccountButton.setTitleColor(.lightGray, for: .normal)
+        createAccountButton.addTarget(self, action: #selector(createAccountButtonTapped), for: .touchUpInside)
+
         let imageView = UIImageView()
         imageView.image = UIImage(named: "wavclouds") // Replace "your_image_name" with the actual image name from your assets
         imageView.contentMode = .scaleAspectFit
@@ -45,7 +83,7 @@ class LoginViewController: UIViewController {
         imageView.widthAnchor.constraint(equalToConstant: 225).isActive = true // Set the desired width
 
         // Add UI elements to the view
-        let stackView = UIStackView(arrangedSubviews: [imageView, UIView(), usernameTextField, passwordTextField, loginButton])
+        let stackView = UIStackView(arrangedSubviews: [imageView, UIView(), usernameTextField, passwordTextField, loginButton, createAccountButton])
         stackView.axis = .vertical
         stackView.spacing = 16.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,6 +100,13 @@ class LoginViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
+    }
+    
+    @objc private func createAccountButtonTapped() {
+        // Open the URL in the browser when the "Create an Account" button is tapped
+        if let url = URL(string: baseUrl + "/sign_up") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     @objc private func loginButtonTapped() {
@@ -92,7 +137,7 @@ class LoginViewController: UIViewController {
     
     func attemptLogin(username: String, password: String, completion: @escaping (Result<OauthResponse, Error>) -> Void) {
         // Define the URL of your Rails server's endpoint
-        guard let url = URL(string: "http://localhost:3000/oauth/token") else {
+        guard let url = URL(string: baseUrl + "/oauth/token") else {
             print("Invalid URL")
             completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
             return

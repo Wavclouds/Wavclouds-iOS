@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "iqkeyboardmanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hackiftekhar/IQKeyboardManager",
+      "state" : {
+        "revision" : "47548c2cdde7a2282a64b9b5fa0a6aeb2397c37b",
+        "version" : "6.5.13"
+      }
+    },
+    {
       "identity" : "swiftkeychainwrapper",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jrendel/SwiftKeychainWrapper.git",
