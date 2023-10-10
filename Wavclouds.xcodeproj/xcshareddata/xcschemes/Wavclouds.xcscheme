@@ -76,7 +76,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "APP_ENV"
-            value = "development"
+            value = "production"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

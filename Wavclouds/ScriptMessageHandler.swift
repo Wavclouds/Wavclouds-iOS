@@ -1,6 +1,6 @@
 import WebKit
 
-protocol ScriptMessageDelegate: class {
+protocol ScriptMessageDelegate: AnyObject {
     func sendNotificationToken()
     func signout()
 }
@@ -25,6 +25,8 @@ class ScriptMessageHandler: NSObject, WKScriptMessageHandler {
             delegate?.sendNotificationToken()
         case "signout":
             delegate?.signout()
+        case "console_log":
+            print("Console Log: \(body["message"]!)")
         default:
             return
         }

@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, WKNavigationDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        if let savedToken = fetchSavedToken() {
+        if fetchSavedToken() != nil {
            // User is authenticated, show your existing content
             window?.rootViewController = navigationController
             navigationController.tabBar.delegate = self
@@ -52,9 +52,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, WKNavigationDelegate {
     
     func showLoginScreen() {
         // User is not authenticated, show the login screen
-        let loginViewController = LoginViewController()
-        loginViewController.delegate = self
-        window?.rootViewController = loginViewController
+        DispatchQueue.main.async {
+            let loginViewController = LoginViewController()
+            loginViewController.delegate = self
+            self.window?.rootViewController = loginViewController
+        }
+    }
+    
+    func showRegisterScreen() {
+        DispatchQueue.main.async {
+            let registerViewController = RegisterViewController()
+            registerViewController.delegate = self
+            self.window?.rootViewController = registerViewController
+        }
     }
     
     private func visit(url: URL) {
@@ -101,13 +111,20 @@ extension SceneDelegate: SessionDelegate {
     
 
     func session(_ session: Turbo.Session, didFailRequestForVisitable visitable: Turbo.Visitable, error: Error) {
-        // TODO: Handle errors
         if let turboError = error as? TurboError, case let .http(statusCode) = turboError, statusCode == 401 {
-            // handle error
             // Create the URLRequest and add the OAuth header
-            print("CAUGHT THE ERROR")
             do {
                 if let savedToken = fetchSavedToken() {
+                    checkStatusOfToken(token: savedToken) { result in
+                        switch result {
+                        case .success(let responseString):
+                            print("Request was successful! Response data: \(responseString)")
+                        case .failure(let error):
+                            print("Request failed with error: \(error)")
+                            self.signout()
+                        }
+                    }
+                    
                     let url = URL(string: baseUrl + "/oauth/check_token")!
                     var request = URLRequest(url: url)
                     request.httpMethod = "POST"
@@ -136,7 +153,73 @@ extension SceneDelegate: SessionDelegate {
     }
 }
 
-extension SceneDelegate: LoginViewControllerDelegate {
+enum RequestError: Error {
+    case invalidResponse
+    case unsuccessfulStatusCode(Int)
+    case dataSerializationError
+}
+
+extension SceneDelegate {
+    func checkStatusOfToken(token: String, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let url = URL(string: baseUrl + "/oauth/check_token") else {
+            print("Invalid URL")
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
+        }
+
+        // Create a URLSession
+        let session = URLSession.shared
+
+        // Create a dictionary for the request body parameters
+        let params: [String: Any] = [
+            "token": token,
+        ]
+
+        // Create a request
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        // Convert the parameters to JSON data
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: params, options: [])
+
+            // Set the request body
+            request.httpBody = jsonData
+
+            // Set the request headers
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+            // Create a data task to send the POST request
+            let task = session.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("Error: \(error)")
+                    completion(.failure(error))
+                } else if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 401 {
+                        // Handle 401 Unauthorized
+                        print("Unauthorized: \(httpResponse)")
+                        completion(.failure(NSError(domain: "Unauthorized", code: 401, userInfo: nil)))
+                    } else if httpResponse.statusCode == 200 {
+                        // Handle success
+                        completion(.success("Success"))
+                    } else {
+                        // Handle other status codes
+                        print("Unexpected status code: \(httpResponse.statusCode)")
+                        completion(.failure(NSError(domain: "Unexpected status code", code: httpResponse.statusCode, userInfo: nil)))
+                    }
+                }
+            }
+
+            // Start the data task
+            task.resume()
+        } catch {
+            print("Error converting parameters to JSON: \(error)")
+            completion(.failure(error))
+        }
+    }
+}
+
+extension SceneDelegate: LoginViewControllerDelegate, RegisterViewControllerDelegate {
     func didLoginSuccessfully() {
         // Handle the successful login action here
         // This method will be called from LoginViewController when a successful login occurs

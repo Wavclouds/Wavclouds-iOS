@@ -15,9 +15,28 @@ class ViewController: UINavigationController, UITabBarDelegate {
 
         // Set the items for the custom tab bar
         tabBar.items = [itemHome, itemUpload, itemChat, itemProfile]
+    
+        // Calculate the correct Y position
+        let tabBarY = self.view.frame.height - tabBar.frame.height - view.safeAreaInsets.bottom
         
+        print("View height: \(self.view.frame.height)")
+        print("Tab bar height: \(tabBar.frame.height)")
+        print("Safe area bottom inset: \(view.safeAreaInsets.bottom)")
+        print("Calculated tabBarY: \(tabBarY)")
+        // Calculate the adaptive height for the tab bar
+        var tabBarHeight: CGFloat = 80.0 // Your default height
+        if #available(iOS 11.0, *) {
+            tabBarHeight = max(49, view.safeAreaInsets.bottom + tabBar.safeAreaInsets.bottom) // 49 is the standard height for tab bars
+        }
+        
+        // Adjust the height for larger devices
+        if UIDevice.current.userInterfaceIdiom == .pad || UIScreen.main.bounds.height > 800 {
+            tabBarHeight = max(tabBarHeight, 80.0) // Adjust as needed for larger devices
+        }
+        print("Tab Bar Height: \(tabBarHeight)")
+
         // Position and add the custom tab bar to the view
-        tabBar.frame = CGRect(x: 0, y: self.view.frame.height - 81, width: self.view.frame.width, height: 240)
+        tabBar.frame = CGRect(x: 0, y: tabBarY - tabBarHeight, width: self.view.frame.width, height: tabBarHeight)
         self.view.addSubview(tabBar)
         
         // Set the initial selected tab

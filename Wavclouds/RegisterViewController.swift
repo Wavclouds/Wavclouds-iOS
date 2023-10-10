@@ -1,22 +1,30 @@
-import UIKit
+//
+//  RegisterViewController.swift
+//  Wavclouds
+//
+//  Created by Enoch Tamulonis on 10/9/23.
+//
+
 import Foundation
+import WebKit
 import SwiftKeychainWrapper
 
-class LoginViewController: UIViewController {
+class RegisterViewController: UIViewController {
     // Add your UI elements for user login (e.g., text fields, buttons, etc.)
     private let usernameTextField = UITextField()
+    private let emailTextField = UITextField()
     private let passwordTextField = UITextField()
-    private let loginButton = UIButton(type: .system)
+    private let registerButton = UIButton(type: .system)
     private let errorMessage = UITextView()
     let baseUrl = Constants.baseUrl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        self.setupUI()
     }
     
     private func setupUI() {
-        // Customize your UI elements here
+        // Setup UI
         view.backgroundColor = .blue
         
         // Add and configure UI elements (e.g., usernameTextField, passwordTextField, loginButton)
@@ -45,6 +53,23 @@ class LoginViewController: UIViewController {
         passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
         passwordTextField.layer.cornerRadius = 8.0  // Optional: Add rounded corners for a nicer look
         
+        emailTextField.placeholder = "Email"
+        emailTextField.textColor = .white
+        emailTextField.attributedPlaceholder = NSAttributedString(
+            string: "Email",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+        )
+        emailTextField.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        // Add a border to the text fields
+        emailTextField.layer.borderWidth = 1.0
+        emailTextField.layer.borderColor = UIColor.lightGray.cgColor
+        emailTextField.layer.cornerRadius = 8.0  // Optional: Add rounded corners for a nicer look
+        // Add padding to the inner text
+        let emailPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: emailTextField.frame.height))
+        emailTextField.leftView = emailPaddingView
+        emailTextField.leftViewMode = .always
+        
+        
         // Add padding to the inner text
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: usernameTextField.frame.height))
         usernameTextField.leftView = paddingView
@@ -54,20 +79,20 @@ class LoginViewController: UIViewController {
         passwordTextField.leftView = passwordPaddingView
         passwordTextField.leftViewMode = .always
         
-        loginButton.setTitle("Login", for: .normal)
-        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        registerButton.setTitle("Create account", for: .normal)
+        registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         
         // Customize the login button
-        loginButton.layer.cornerRadius = 8.0
-        loginButton.layer.masksToBounds = true
-        loginButton.setTitleColor(.white, for: .normal)
-        loginButton.backgroundColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0) // Customize button color
+        registerButton.layer.cornerRadius = 8.0
+        registerButton.layer.masksToBounds = true
+        registerButton.setTitleColor(.white, for: .normal)
+        registerButton.backgroundColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0) // Customize button color
 
         // Add shadow to the login button (optional)
-        loginButton.layer.shadowColor = UIColor.gray.cgColor
-        loginButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        loginButton.layer.shadowOpacity = 0.5
-        loginButton.layer.shadowRadius = 2.0
+        registerButton.layer.shadowColor = UIColor.gray.cgColor
+        registerButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        registerButton.layer.shadowOpacity = 0.5
+        registerButton.layer.shadowRadius = 2.0
 
         errorMessage.isEditable = false
         errorMessage.textColor = .red
@@ -76,10 +101,10 @@ class LoginViewController: UIViewController {
         errorMessage.heightAnchor.constraint(equalToConstant: 20.0).isActive = true
         
         // Create a "Create an Account" button
-        let createAccountButton = UIButton(type: .system)
-        createAccountButton.setTitle("Create an Account", for: .normal)
-        createAccountButton.setTitleColor(.lightGray, for: .normal)
-        createAccountButton.addTarget(self, action: #selector(createAccountButtonTapped), for: .touchUpInside)
+        let loginButton = UIButton(type: .system)
+        loginButton.setTitle("Already have an account? Sign in", for: .normal)
+        loginButton.setTitleColor(.lightGray, for: .normal)
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
 
         let imageView = UIImageView()
         imageView.image = UIImage(named: "wavclouds") // Replace "your_image_name" with the actual image name from your assets
@@ -90,7 +115,7 @@ class LoginViewController: UIViewController {
         
         
         // Add UI elements to the view
-        let stackView = UIStackView(arrangedSubviews: [imageView, UIView(), errorMessage, usernameTextField, passwordTextField, loginButton, createAccountButton])
+        let stackView = UIStackView(arrangedSubviews: [imageView, UIView(), errorMessage, usernameTextField, emailTextField, passwordTextField, registerButton, loginButton])
         stackView.axis = .vertical
         stackView.spacing = 16.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -109,17 +134,17 @@ class LoginViewController: UIViewController {
         ])
     }
     
-    @objc private func createAccountButtonTapped() {
+    @objc private func loginButtonTapped() {
         // Open the URL in the browser when the "Create an Account" button is tapped
-        self.delegate!.showRegisterScreen()
+        self.delegate!.showLoginScreen()
     }
     
-    @objc private func loginButtonTapped() {
+    @objc private func registerButtonTapped() {
         // Implement your authentication logic here
         errorMessage.text = ""
         print("HEY: YOU CLICKED THE BUTN")
-        if let username = usernameTextField.text, let password = passwordTextField.text {
-            attemptLogin(username: username, password: password) { result in
+        if let username = usernameTextField.text, let password = passwordTextField.text, let email = emailTextField.text {
+            attemptRegister(username: username, email: email, password: password) { result in
                 switch result {
                 case .success(let oauthResponse):
                     // Handle a successful login here
@@ -137,16 +162,16 @@ class LoginViewController: UIViewController {
                     print("Login failed with error: \(error.localizedDescription)")
                     // You can display an error message to the user or take other appropriate actions.
                     DispatchQueue.main.async {
-                        self.errorMessage.text = "Login failed: Either username or password was wrong"
+                        self.errorMessage.text = "There was an issue creating your account"
                     }
                 }
             }
         }
     }
     
-    func attemptLogin(username: String, password: String, completion: @escaping (Result<OauthResponse, Error>) -> Void) {
+    func attemptRegister(username: String, email: String, password: String, completion: @escaping (Result<RegisterResponse, Error>) -> Void) {
         // Define the URL of your Rails server's endpoint
-        guard let url = URL(string: baseUrl + "/oauth/token") else {
+        guard let url = URL(string: baseUrl + "/api/v1/users") else {
             print("Invalid URL")
             completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
             return
@@ -157,7 +182,8 @@ class LoginViewController: UIViewController {
 
         // Create a dictionary for the request body parameters
         let params: [String: Any] = [
-            "login": username,
+            "username": username,
+            "email": email,
             "password": password
         ]
 
@@ -184,7 +210,7 @@ class LoginViewController: UIViewController {
                     // Handle the response data here
                     // You can parse the JSON response using Codable
                     do {
-                        let decodedData = try JSONDecoder().decode(OauthResponse.self, from: data)
+                        let decodedData = try JSONDecoder().decode(RegisterResponse.self, from: data)
                         // Handle the decoded data
                         completion(.success(decodedData))
                     } catch {
@@ -205,16 +231,17 @@ class LoginViewController: UIViewController {
 
     
     // Create a delegate to notify the SceneDelegate when the user logs in successfully
-    weak var delegate: LoginViewControllerDelegate?
+    weak var delegate: RegisterViewControllerDelegate?
 }
+
 
 // Delegate protocol to notify the SceneDelegate when the user logs in successfully
-protocol LoginViewControllerDelegate: AnyObject {
+protocol RegisterViewControllerDelegate: AnyObject {
     func didLoginSuccessfully()
-    func showRegisterScreen()
+    func showLoginScreen()
 }
 
-struct OauthResponse: Codable {
+struct RegisterResponse: Codable {
     // Define properties that match the JSON structure
     let oauth_token: String
     // Add more properties as needed

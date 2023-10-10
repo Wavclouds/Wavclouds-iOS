@@ -13,6 +13,7 @@
 		C51F02702AB7CFDB00A16A66 /* ScriptMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51F026F2AB7CFDB00A16A66 /* ScriptMessageHandler.swift */; };
 		C54F9CBE2ACCBB1D00C0736C /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C54F9CBD2ACCBB1D00C0736C /* IQKeyboardManagerSwift */; };
 		C54F9CC02ACCD1BC00C0736C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F9CBF2ACCD1BC00C0736C /* Constants.swift */; };
+		C55531D12AD50EB5003D1886 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55531D02AD50EB5003D1886 /* RegisterViewController.swift */; };
 		C5F069372A9442A000311E26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F069362A9442A000311E26 /* AppDelegate.swift */; };
 		C5F069392A9442A000311E26 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F069382A9442A000311E26 /* SceneDelegate.swift */; };
 		C5F0693B2A9442A000311E26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F0693A2A9442A000311E26 /* ViewController.swift */; };
@@ -44,6 +45,7 @@
 		C51F026A2AB515C400A16A66 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C51F026F2AB7CFDB00A16A66 /* ScriptMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptMessageHandler.swift; sourceTree = "<group>"; };
 		C54F9CBF2ACCD1BC00C0736C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C55531D02AD50EB5003D1886 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		C5F069332A9442A000311E26 /* Wavclouds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wavclouds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F069362A9442A000311E26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C5F069382A9442A000311E26 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				C51F026A2AB515C400A16A66 /* LoginViewController.swift */,
 				C51F026F2AB7CFDB00A16A66 /* ScriptMessageHandler.swift */,
 				C54F9CBF2ACCD1BC00C0736C /* Constants.swift */,
+				C55531D02AD50EB5003D1886 /* RegisterViewController.swift */,
 			);
 			path = Wavclouds;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				C5F0693B2A9442A000311E26 /* ViewController.swift in Sources */,
 				C5F069372A9442A000311E26 /* AppDelegate.swift in Sources */,
 				C5F069392A9442A000311E26 /* SceneDelegate.swift in Sources */,
+				C55531D12AD50EB5003D1886 /* RegisterViewController.swift in Sources */,
 				C51F02702AB7CFDB00A16A66 /* ScriptMessageHandler.swift in Sources */,
 				C54F9CC02ACCD1BC00C0736C /* Constants.swift in Sources */,
 				C51F026B2AB515C400A16A66 /* LoginViewController.swift in Sources */,
